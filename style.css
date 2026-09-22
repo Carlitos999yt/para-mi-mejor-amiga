@@ -13,9 +13,9 @@
   --gold-dark: #cca000;
   --text-main: #f0f4f8;
   --text-muted: #b8c5d6;
-  --glass-bg: rgba(13, 20, 38, 0.65);
-  --glass-border: rgba(255, 215, 0, 0.25);
-  --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.12);
+  --glass-bg: rgba(13, 20, 38, 0.72);
+  --glass-border: rgba(255, 215, 0, 0.28);
+  --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 35px rgba(255, 215, 0, 0.15);
 }
 
 html, body {
@@ -53,7 +53,6 @@ html, body {
   overflow: hidden;
 }
 
-/* Pétalo animado */
 .petal {
   position: absolute;
   background: linear-gradient(135deg, #fff7ad 0%, #ffd700 60%, #e6a100 100%);
@@ -68,12 +67,8 @@ html, body {
     transform: translateY(-50px) rotate(0deg) rotateY(0deg);
     opacity: 0;
   }
-  10% {
-    opacity: 0.9;
-  }
-  90% {
-    opacity: 0.9;
-  }
+  10% { opacity: 0.9; }
+  90% { opacity: 0.9; }
   100% {
     transform: translateY(105vh) rotate(540deg) rotateY(360deg);
     opacity: 0;
@@ -129,7 +124,6 @@ html, body {
   height: 4px;
   background-color: var(--gold-light);
   border-radius: 2px;
-  transition: height 0.2s ease;
 }
 
 .music-btn.playing .sound-wave span:nth-child(1) { animation: wave 0.8s ease-in-out infinite; }
@@ -142,7 +136,111 @@ html, body {
   50% { height: 14px; }
 }
 
-/* Contenedor Principal */
+/* =========================================
+   PANTALLA DE ENTRADA (BOTÓN DE CLIC)
+========================================= */
+.intro-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.intro-screen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 26px;
+  padding: 45px 35px;
+  text-align: center;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: var(--glass-shadow);
+  animation: introPop 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes introPop {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.intro-flower-icon {
+  font-size: 3.5rem;
+  margin-bottom: 16px;
+  animation: gentleSway 3s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
+}
+
+@keyframes gentleSway {
+  0% { transform: rotate(-8deg) scale(0.98); }
+  100% { transform: rotate(8deg) scale(1.04); }
+}
+
+.intro-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.intro-subtitle {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-bottom: 30px;
+}
+
+.start-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 28px;
+  background: linear-gradient(135deg, #ffd700 0%, #f59e0b 50%, #d97706 100%);
+  color: #1a1003;
+  border: none;
+  border-radius: 35px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 30px rgba(245, 158, 11, 0.5), 0 0 25px rgba(255, 215, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: pulseBtn 2.2s infinite;
+}
+
+@keyframes pulseBtn {
+  0%, 100% { transform: scale(1); box-shadow: 0 8px 30px rgba(245, 158, 11, 0.5); }
+  50% { transform: scale(1.03); box-shadow: 0 12px 40px rgba(245, 158, 11, 0.8), 0 0 30px #ffd700; }
+}
+
+.start-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+}
+
+.start-btn:active {
+  transform: translateY(1px);
+}
+
+/* =========================================
+   CONTENEDOR PRINCIPAL
+========================================= */
 .main-wrapper {
   position: relative;
   z-index: 10;
@@ -151,39 +249,37 @@ html, body {
   justify-content: center;
   align-items: center;
   padding: 70px 18px 40px;
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Tarjeta Glassmorphism */
+.main-wrapper.hidden {
+  display: none;
+}
+
+.main-wrapper.visible {
+  display: flex;
+  opacity: 1;
+}
+
 .glass-card {
   position: relative;
   width: 100%;
-  max-width: 580px;
+  max-width: 600px;
   background: var(--glass-bg);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
   border-radius: 28px;
   padding: 40px 30px 25px;
   box-shadow: var(--glass-shadow);
   text-align: center;
   overflow: hidden;
-  animation: cardFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes cardFadeUp {
-  0% {
-    opacity: 0;
-    transform: translateY(40px) scale(0.96);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
 }
 
 /* Insignia */
 .badge-container {
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 .badge {
@@ -200,12 +296,12 @@ html, body {
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
 }
 
-/* Sección de Avatar con Halos */
+/* FOTO ESTÁTICA DE LA AMIGA */
 .avatar-section {
   position: relative;
-  width: 160px;
-  height: 160px;
-  margin: 0 auto 26px;
+  width: 155px;
+  height: 155px;
+  margin: 0 auto 16px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -213,42 +309,23 @@ html, body {
 
 .avatar-halo {
   position: absolute;
-  width: 175px;
-  height: 175px;
+  width: 170px;
+  height: 170px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.35) 0%, rgba(255, 215, 0, 0) 70%);
-  animation: haloPulse 3s ease-in-out infinite alternate;
-}
-
-@keyframes haloPulse {
-  0% { transform: scale(0.95); opacity: 0.5; }
-  100% { transform: scale(1.15); opacity: 0.9; }
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(255, 215, 0, 0) 70%);
 }
 
 .avatar-ring {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 145px;
+  height: 145px;
   border-radius: 50%;
-  padding: 4px;
-  background: linear-gradient(135deg, #fff280, #ffd700, #ff9900, #fff280);
-  background-size: 300% 300%;
-  animation: ringRotate 6s ease infinite, ringGlow 3s ease-in-out infinite alternate;
+  padding: 3px;
+  background: linear-gradient(135deg, #fff280, #ffd700, #ffaa00);
   box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-@keyframes ringRotate {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes ringGlow {
-  0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
-  100% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.75); }
 }
 
 .avatar-img {
@@ -264,21 +341,247 @@ html, body {
 .avatar-sparkles .sparkle {
   position: absolute;
   font-size: 1.1rem;
-  animation: sparkleFloat 2.5s ease-in-out infinite;
   pointer-events: none;
 }
+.s1 { top: -4px; right: 6px; }
+.s2 { bottom: 10px; left: -2px; }
+.s3 { bottom: -6px; right: 12px; }
 
-.s1 { top: -4px; right: 8px; animation-delay: 0.2s; }
-.s2 { bottom: 10px; left: -2px; animation-delay: 1.1s; }
-.s3 { bottom: -6px; right: 14px; animation-delay: 1.9s; }
-
-@keyframes sparkleFloat {
-  0%, 100% { transform: translateY(0) scale(0.9); opacity: 0.6; }
-  50% { transform: translateY(-8px) scale(1.2); opacity: 1; filter: drop-shadow(0 0 8px #ffd700); }
+/* =========================================
+   FLORES AMARILLAS ANIMADAS (Debajo de la foto)
+========================================= */
+.animated-flowers-container {
+  position: relative;
+  width: 100%;
+  height: 130px;
+  margin: 10px auto 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
 }
 
-/* Encabezado */
-.card-header {
+.flowers-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 36px;
+  position: relative;
+  z-index: 5;
+}
+
+/* Estructura de cada flor */
+.flower {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: bottom center;
+}
+
+.flower-left {
+  animation: swayStemLeft 3.8s ease-in-out infinite alternate;
+}
+
+.flower-center {
+  animation: swayStemCenter 4.2s ease-in-out infinite alternate;
+  z-index: 6;
+}
+
+.flower-right {
+  animation: swayStemRight 3.5s ease-in-out infinite alternate;
+}
+
+@keyframes swayStemLeft {
+  0% { transform: rotate(-5deg); }
+  100% { transform: rotate(5deg); }
+}
+
+@keyframes swayStemCenter {
+  0% { transform: rotate(-3deg) scale(1.1); }
+  100% { transform: rotate(3deg) scale(1.1); }
+}
+
+@keyframes swayStemRight {
+  0% { transform: rotate(6deg); }
+  100% { transform: rotate(-4deg); }
+}
+
+/* Flor Bloom (cabeza de flor con pétalos) */
+.flower-bloom {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.6));
+  animation: flowerBreathe 3s ease-in-out infinite alternate;
+}
+
+@keyframes flowerBreathe {
+  0% { transform: scale(0.96); }
+  100% { transform: scale(1.05); }
+}
+
+.petals-circle {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* Pétalos individuales */
+.p-petal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 28px;
+  background: linear-gradient(to top, #ffb300, #ffea00, #fff7ad);
+  border-radius: 50% 50% 30% 30%;
+  margin-left: -7px;
+  margin-top: -28px;
+  transform-origin: bottom center;
+  box-shadow: 0 0 4px rgba(255, 215, 0, 0.4);
+  animation: petalWave 2.4s ease-in-out infinite alternate;
+}
+
+/* Distribución circular de los 12 pétalos */
+.p1  { transform: rotate(0deg); animation-delay: 0.1s; }
+.p2  { transform: rotate(30deg); animation-delay: 0.2s; }
+.p3  { transform: rotate(60deg); animation-delay: 0.3s; }
+.p4  { transform: rotate(90deg); animation-delay: 0.4s; }
+.p5  { transform: rotate(120deg); animation-delay: 0.5s; }
+.p6  { transform: rotate(150deg); animation-delay: 0.6s; }
+.p7  { transform: rotate(180deg); animation-delay: 0.7s; }
+.p8  { transform: rotate(210deg); animation-delay: 0.8s; }
+.p9  { transform: rotate(240deg); animation-delay: 0.9s; }
+.p10 { transform: rotate(270deg); animation-delay: 1.0s; }
+.p11 { transform: rotate(300deg); animation-delay: 1.1s; }
+.p12 { transform: rotate(330deg); animation-delay: 1.2s; }
+
+@keyframes petalWave {
+  0% { transform: rotate(var(--rot, 0deg)) scaleY(0.92); }
+  100% { transform: rotate(var(--rot, 0deg)) scaleY(1.08); filter: brightness(1.1); }
+}
+
+/* Centro de la flor */
+.flower-core {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background: radial-gradient(circle, #663300 0%, #3d1d00 100%);
+  border-radius: 50%;
+  border: 1px solid #994d00;
+  box-shadow: inset 0 0 4px #000;
+  z-index: 10;
+}
+
+/* Tallo */
+.flower-stem {
+  width: 4px;
+  height: 60px;
+  background: linear-gradient(to bottom, #4caf50, #2e7d32);
+  border-radius: 2px;
+}
+
+.flower-center .flower-stem {
+  height: 70px;
+  width: 5px;
+}
+
+/* Hojas animadas */
+.flower-leaf {
+  position: absolute;
+  width: 16px;
+  height: 10px;
+  background: #388e3c;
+  border-radius: 0 100% 0 100%;
+}
+
+.leaf-left {
+  bottom: 25px;
+  left: -12px;
+  transform: rotate(-30deg);
+  animation: leafMove 3s ease-in-out infinite alternate;
+}
+
+.leaf-right {
+  bottom: 35px;
+  right: -12px;
+  transform: rotate(30deg) scaleX(-1);
+  animation: leafMove 2.6s ease-in-out infinite alternate 0.5s;
+}
+
+@keyframes leafMove {
+  0% { transform: rotate(-25deg); }
+  100% { transform: rotate(-38deg); }
+}
+
+/* Suelo/Pasto sutil */
+.flowers-grass {
+  width: 80%;
+  height: 4px;
+  background: radial-gradient(ellipse at center, rgba(76, 175, 80, 0.6) 0%, rgba(76, 175, 80, 0) 75%);
+  margin-top: -2px;
+  border-radius: 50%;
+  filter: blur(1px);
+}
+
+/* =========================================
+   TEXTO EN CASCADA / LLUVIA HORIZONTAL
+========================================= */
+.cascade-text-container {
+  width: 100%;
+  text-align: left;
+}
+
+.cascade-line {
+  opacity: 0;
+  transform: translateY(-70px);
+  filter: blur(5px);
+  will-change: transform, opacity, filter;
+}
+
+/* Activación de la cascada de lluvia */
+.main-wrapper.visible .cascade-line {
+  animation: rainDropCascade 0.9s cubic-bezier(0.18, 0.89, 0.32, 1.25) forwards;
+}
+
+/* Retardo progresivo en cascada */
+.main-wrapper.visible .cascade-line[data-delay="0"] { animation-delay: 0.15s; }
+.main-wrapper.visible .cascade-line[data-delay="1"] { animation-delay: 0.5s; }
+.main-wrapper.visible .cascade-line[data-delay="2"] { animation-delay: 0.9s; }
+.main-wrapper.visible .cascade-line[data-delay="3"] { animation-delay: 1.35s; }
+.main-wrapper.visible .cascade-line[data-delay="4"] { animation-delay: 1.8s; }
+.main-wrapper.visible .cascade-line[data-delay="5"] { animation-delay: 2.25s; }
+.main-wrapper.visible .cascade-line[data-delay="6"] { animation-delay: 2.7s; }
+.main-wrapper.visible .cascade-line[data-delay="7"] { animation-delay: 3.1s; }
+
+@keyframes rainDropCascade {
+  0% {
+    opacity: 0;
+    transform: translateY(-70px);
+    filter: blur(5px);
+  }
+  60% {
+    opacity: 0.9;
+    filter: blur(0);
+    transform: translateY(6px);
+  }
+  85% {
+    transform: translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Tipografía del encabezado */
+.block-title {
+  text-align: center;
   margin-bottom: 24px;
 }
 
@@ -302,8 +605,8 @@ html, body {
   letter-spacing: 0.5px;
 }
 
-/* Contenido de la Carta */
-.letter-content {
+/* Párrafos horizontales estructurados */
+.block-paragraphs {
   text-align: left;
   line-height: 1.75;
   font-size: 0.96rem;
@@ -421,27 +724,6 @@ html, body {
   transform: translateY(-2px);
 }
 
-/* Jardín de Flores en SVG */
-.flowers-garden {
-  width: 100%;
-  height: 90px;
-  margin: 10px 0 15px;
-  position: relative;
-  overflow: hidden;
-}
-
-.garden-svg {
-  width: 100%;
-  height: 100%;
-  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.4));
-  animation: subtleBreeze 4s ease-in-out infinite alternate;
-}
-
-@keyframes subtleBreeze {
-  0% { transform: skewX(-1.5deg); }
-  100% { transform: skewX(1.5deg); }
-}
-
 /* Pie de Página */
 .card-footer {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -461,7 +743,7 @@ html, body {
 /* Responsive */
 @media (max-width: 480px) {
   .glass-card {
-    padding: 32px 20px 20px;
+    padding: 30px 18px 20px;
     border-radius: 22px;
   }
 
@@ -470,25 +752,36 @@ html, body {
     height: 135px;
   }
 
-  .avatar-halo {
-    width: 145px;
-    height: 145px;
-  }
-
   .avatar-ring {
     width: 125px;
     height: 125px;
   }
 
+  .flowers-wrapper {
+    gap: 24px;
+  }
+
+  .flower-bloom {
+    width: 50px;
+    height: 50px;
+  }
+
+  .p-petal {
+    width: 11px;
+    height: 23px;
+    margin-left: -5.5px;
+    margin-top: -23px;
+  }
+
   .title {
-    font-size: 1.65rem;
+    font-size: 1.6rem;
   }
 
   .subtitle {
     font-size: 0.85rem;
   }
 
-  .letter-content {
+  .letter-content, .block-paragraphs {
     font-size: 0.9rem;
   }
 

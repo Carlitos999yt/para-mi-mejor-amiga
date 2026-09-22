@@ -9,7 +9,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -29,8 +29,22 @@
     </div>
   </button>
 
-  <!-- Contenido principal -->
-  <main class="main-wrapper">
+  <!-- PANTALLA INICIAL: Botón para hacer clic -->
+  <div id="intro-screen" class="intro-screen">
+    <div class="intro-card">
+      <div class="intro-flower-icon">🌻</div>
+      <h2 class="intro-title">Tengo algo muy especial para ti...</h2>
+      <p class="intro-subtitle">Una sorpresa bajo la noche de luna llena</p>
+      <button id="start-btn" class="start-btn">
+        <span class="btn-sparkle">✨</span>
+        <span class="btn-label">Toca aquí para abrir</span>
+        <span class="btn-sparkle">💛</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL (Oculto al inicio, se activa con el clic) -->
+  <main id="main-wrapper" class="main-wrapper hidden">
     <div class="glass-card">
       
       <!-- Insignia superior -->
@@ -38,7 +52,7 @@
         <span class="badge">✨ 3 Años de Amistad ✨</span>
       </div>
 
-      <!-- Avatar / Foto con halo de luz lunar y dorado -->
+      <!-- Foto estática de la amiga con marco circular elegante -->
       <div class="avatar-section">
         <div class="avatar-halo"></div>
         <div class="avatar-ring">
@@ -51,43 +65,105 @@
         </div>
       </div>
 
-      <!-- Título principal -->
-      <header class="card-header">
-        <h1 class="title">¡Feliz 3 Años de Amistad!</h1>
-        <p class="subtitle">Para mi persona favorita y mejor amiga en todo el mundo</p>
-      </header>
+      <!-- FLORES AMARILLAS ANIMADAS DEBAJO DE LA FOTO (Movimiento en pétalos y tallos) -->
+      <div class="animated-flowers-container">
+        <div class="flowers-wrapper">
+          
+          <!-- Flor izquierda -->
+          <div class="flower flower-left">
+            <div class="flower-bloom">
+              <div class="petals-circle">
+                <span class="p-petal p1"></span><span class="p-petal p2"></span>
+                <span class="p-petal p3"></span><span class="p-petal p4"></span>
+                <span class="p-petal p5"></span><span class="p-petal p6"></span>
+                <span class="p-petal p7"></span><span class="p-petal p8"></span>
+                <span class="p-petal p9"></span><span class="p-petal p10"></span>
+                <span class="p-petal p11"></span><span class="p-petal p12"></span>
+              </div>
+              <div class="flower-core"></div>
+            </div>
+            <div class="flower-stem"></div>
+            <div class="flower-leaf leaf-left"></div>
+          </div>
 
-      <!-- Mensaje sincero -->
-      <section class="letter-content">
-        <p class="paragraph highlight-first">
-          Gracias por ser mi mejor amiga en todos estos años. También quería serte agradecido, 
-          aunque muchas veces no te lo diga directamente.
-        </p>
+          <!-- Flor central (más grande y protagónica) -->
+          <div class="flower flower-center">
+            <div class="flower-bloom">
+              <div class="petals-circle">
+                <span class="p-petal p1"></span><span class="p-petal p2"></span>
+                <span class="p-petal p3"></span><span class="p-petal p4"></span>
+                <span class="p-petal p5"></span><span class="p-petal p6"></span>
+                <span class="p-petal p7"></span><span class="p-petal p8"></span>
+                <span class="p-petal p9"></span><span class="p-petal p10"></span>
+                <span class="p-petal p11"></span><span class="p-petal p12"></span>
+              </div>
+              <div class="flower-core"></div>
+            </div>
+            <div class="flower-stem"></div>
+            <div class="flower-leaf leaf-left"></div>
+            <div class="flower-leaf leaf-right"></div>
+          </div>
 
-        <!-- Banner de flores amarillas -->
-        <div class="flower-banner">
-          <div class="flower-icon-left">🌻</div>
-          <p class="flower-text">
-            Quería regalarte estas flores amarillas que nunca se marchitan, para recordarte siempre 
-            lo especial e incondicional que eres para mí.
-          </p>
-          <div class="flower-icon-right">🌻</div>
+          <!-- Flor derecha -->
+          <div class="flower flower-right">
+            <div class="flower-bloom">
+              <div class="petals-circle">
+                <span class="p-petal p1"></span><span class="p-petal p2"></span>
+                <span class="p-petal p3"></span><span class="p-petal p4"></span>
+                <span class="p-petal p5"></span><span class="p-petal p6"></span>
+                <span class="p-petal p7"></span><span class="p-petal p8"></span>
+                <span class="p-petal p9"></span><span class="p-petal p10"></span>
+                <span class="p-petal p11"></span><span class="p-petal p12"></span>
+              </div>
+              <div class="flower-core"></div>
+            </div>
+            <div class="flower-stem"></div>
+            <div class="flower-leaf leaf-right"></div>
+          </div>
+
+        </div>
+        <div class="flowers-grass"></div>
+      </div>
+
+      <!-- TEXTO EN CASCADA / LLUVIA QUE SE ACOMODA HORIZONTALMENTE -->
+      <section id="cascade-text-container" class="cascade-text-container">
+        
+        <div class="cascade-block block-title">
+          <h1 class="title cascade-line" data-delay="0">¡Feliz 3 Años de Amistad!</h1>
+          <p class="subtitle cascade-line" data-delay="1">Para mi persona favorita y mejor amiga en todo el mundo</p>
         </div>
 
-        <p class="paragraph">
-          Gracias por entender cuando pasaba cualquier huevada conmigo, cuando yo te escribía en las mañanas 
-          y a veces me contestabas, a veces sí, a veces no... <i>(jajaja)</i>, pero al final del día 
-          siempre estuviste ahí para escucharme y acompañarme.
-        </p>
+        <div class="cascade-block block-paragraphs">
+          <p class="paragraph cascade-line highlight-first" data-delay="2">
+            Gracias por ser mi mejor amiga en todos estos años. También quería serte agradecido, 
+            aunque muchas veces no te lo diga directamente.
+          </p>
 
-        <p class="paragraph highlight-closing">
-          Muchas gracias en serio por tu tiempo, tus risas, tu paciencia y por ser esa amiga única. 
-          Que la vida nos siga regalando muchísimos años más de amistad y anécdotas. 💛
-        </p>
+          <div class="flower-banner cascade-line" data-delay="3">
+            <div class="flower-icon-left">🌻</div>
+            <p class="flower-text">
+              Quería regalarte estas flores amarillas que nunca se marchitan, para recordarte siempre 
+              lo especial e incondicional que eres para mí.
+            </p>
+            <div class="flower-icon-right">🌻</div>
+          </div>
+
+          <p class="paragraph cascade-line" data-delay="4">
+            Gracias por entender cuando pasaba cualquier huevada conmigo, cuando yo te escribía en las mañanas 
+            y a veces me contestabas, a veces sí, a veces no... <i>(jajaja)</i>, pero al final del día 
+            siempre estuviste ahí para escucharme y acompañarme.
+          </p>
+
+          <p class="paragraph cascade-line highlight-closing" data-delay="5">
+            Muchas gracias en serio por tu tiempo, tus risas, tu paciencia y por ser esa amiga única. 
+            Que la vida nos siga regalando muchísimos años más de amistad y anécdotas. 💛
+          </p>
+        </div>
+
       </section>
 
-      <!-- Zona interactiva -->
-      <div class="action-buttons">
+      <!-- Zona de botones interactivos -->
+      <div class="action-buttons cascade-line" data-delay="6">
         <button id="btn-flowers" class="btn btn-primary">
           <span>🌼 Lluvia de Flores Amarillas</span>
         </button>
@@ -96,79 +172,8 @@
         </button>
       </div>
 
-      <!-- Decoración inferior de flores y pasto nocturno -->
-      <div class="flowers-garden">
-        <svg class="garden-svg" viewBox="0 0 500 120" preserveAspectRatio="none">
-          <!-- Flores amarillas detalladas en SVG -->
-          <defs>
-            <radialGradient id="flowerGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#fffb99" />
-              <stop offset="70%" stop-color="#ffd700" />
-              <stop offset="100%" stop-color="#e69500" />
-            </radialGradient>
-            <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#7a460b" />
-              <stop offset="100%" stop-color="#3d1d00" />
-            </radialGradient>
-          </defs>
-
-          <!-- Tallo y hojas izquierda -->
-          <path d="M 60 120 Q 65 70 80 40" stroke="#3e6b36" stroke-width="4" fill="none" />
-          <path d="M 72 80 Q 95 70 85 90" stroke="#3e6b36" stroke-width="3" fill="#2d5227" opacity="0.8" />
-          <!-- Flor izquierda -->
-          <g transform="translate(80, 40) scale(0.75)">
-            <circle cx="0" cy="0" r="28" fill="url(#flowerGlow)" opacity="0.4" />
-            <!-- Pétalos -->
-            <ellipse cx="0" cy="-22" rx="7" ry="16" fill="url(#flowerGlow)" />
-            <ellipse cx="15" cy="-15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(45)" />
-            <ellipse cx="22" cy="0" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(90)" />
-            <ellipse cx="15" cy="15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(135)" />
-            <ellipse cx="0" cy="22" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(180)" />
-            <ellipse cx="-15" cy="15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(225)" />
-            <ellipse cx="-22" cy="0" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(270)" />
-            <ellipse cx="-15" cy="-15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(315)" />
-            <circle cx="0" cy="0" r="10" fill="url(#centerGlow)" />
-          </g>
-
-          <!-- Flor central grande -->
-          <path d="M 250 120 Q 245 60 250 25" stroke="#487e3f" stroke-width="4.5" fill="none" />
-          <path d="M 248 70 Q 220 60 235 85" stroke="#487e3f" stroke-width="3" fill="#2f5728" opacity="0.85" />
-          <path d="M 252 50 Q 280 40 265 65" stroke="#487e3f" stroke-width="3" fill="#2f5728" opacity="0.85" />
-          <g transform="translate(250, 25) scale(0.95)">
-            <circle cx="0" cy="0" r="34" fill="url(#flowerGlow)" opacity="0.5" />
-            <!-- Pétalos -->
-            <ellipse cx="0" cy="-26" rx="8" ry="19" fill="url(#flowerGlow)" />
-            <ellipse cx="18" cy="-18" rx="8" ry="19" fill="url(#flowerGlow)" transform="rotate(45)" />
-            <ellipse cx="26" cy="0" rx="8" ry="19" fill="url(#flowerGlow)" transform="rotate(90)" />
-            <ellipse cx="18" cy="18" rx="8" ry="19" fill="url(#flowerGlow)" transform="rotate(135)" />
-            <ellipse cx="0" cy="26" rx="8" ry="19" fill="url(#flowerGlow)" transform="rotate(180)" />
-            <ellipse cx="-18" cy="18" rx="8" ry="19" fill="url(#flowerGlow)" transform="rotate(225)" />
-            <ellipse cx="-26" cy="0" rx="8" ry="19" fill="url(#flowerGlow)" transform="rotate(270)" />
-            <ellipse cx="-18" cy="-18" rx="8" ry="19" fill="url(#flowerGlow)" transform="rotate(315)" />
-            <circle cx="0" cy="0" r="13" fill="url(#centerGlow)" />
-          </g>
-
-          <!-- Flor derecha -->
-          <path d="M 430 120 Q 425 75 410 45" stroke="#3e6b36" stroke-width="4" fill="none" />
-          <path d="M 418 85 Q 395 75 408 95" stroke="#3e6b36" stroke-width="3" fill="#2d5227" opacity="0.8" />
-          <g transform="translate(410, 45) scale(0.7)">
-            <circle cx="0" cy="0" r="28" fill="url(#flowerGlow)" opacity="0.4" />
-            <!-- Pétalos -->
-            <ellipse cx="0" cy="-22" rx="7" ry="16" fill="url(#flowerGlow)" />
-            <ellipse cx="15" cy="-15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(45)" />
-            <ellipse cx="22" cy="0" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(90)" />
-            <ellipse cx="15" cy="15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(135)" />
-            <ellipse cx="0" cy="22" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(180)" />
-            <ellipse cx="-15" cy="15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(225)" />
-            <ellipse cx="-22" cy="0" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(270)" />
-            <ellipse cx="-15" cy="-15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(315)" />
-            <circle cx="0" cy="0" r="10" fill="url(#centerGlow)" />
-          </g>
-        </svg>
-      </div>
-
       <!-- Pie de página -->
-      <footer class="card-footer">
+      <footer class="card-footer cascade-line" data-delay="7">
         <p>Siempre serás una persona sumamente especial. 💛</p>
         <span class="counter-text">3 Años Inolvidables • 2023 - 2026 y por siempre ∞</span>
       </footer>

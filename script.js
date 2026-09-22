@@ -84,7 +84,6 @@ class Firefly {
       this.pulseDir = 1;
     }
 
-    // Rebotar o reaparecer
     if (this.isTemporary) {
       this.life -= 0.008;
       return this.life > 0;
@@ -179,7 +178,6 @@ class ShootingStar {
 
 // Dibujar Luna Llena
 function drawMoon() {
-  // Posicionar la luna arriba a la derecha o centrada en pantallas pequeñas
   const moonX = width > 700 ? width * 0.82 : width * 0.5;
   const moonY = width > 700 ? 110 : 70;
   const moonRadius = width > 700 ? 55 : 42;
@@ -223,15 +221,12 @@ function drawMoon() {
   ctx.clip();
 
   ctx.fillStyle = 'rgba(180, 195, 210, 0.25)';
-  // Cráter 1
   ctx.beginPath();
   ctx.arc(moonX - moonRadius * 0.3, moonY + moonRadius * 0.2, moonRadius * 0.24, 0, Math.PI * 2);
   ctx.fill();
-  // Cráter 2
   ctx.beginPath();
   ctx.arc(moonX + moonRadius * 0.25, moonY - moonRadius * 0.15, moonRadius * 0.18, 0, Math.PI * 2);
   ctx.fill();
-  // Cráter 3
   ctx.beginPath();
   ctx.arc(moonX + moonRadius * 0.1, moonY + moonRadius * 0.35, moonRadius * 0.15, 0, Math.PI * 2);
   ctx.fill();
@@ -243,10 +238,9 @@ function drawMoon() {
 function animateCanvas() {
   ctx.clearRect(0, 0, width, height);
 
-  // 1. Dibujar luna
   drawMoon();
 
-  // 2. Dibujar y parpadear estrellas
+  // Estrellas
   for (let s of stars) {
     s.alpha += s.twinkleSpeed * s.direction;
     if (s.alpha > 0.95) {
@@ -263,7 +257,7 @@ function animateCanvas() {
     ctx.fill();
   }
 
-  // 3. Estrellas fugaces ocasionales
+  // Estrellas fugaces
   if (Math.random() < 0.008 && shootingStars.length < 2) {
     shootingStars.push(new ShootingStar());
   }
@@ -277,7 +271,7 @@ function animateCanvas() {
     }
   }
 
-  // 4. Luciérnagas
+  // Luciérnagas
   for (let i = fireflies.length - 1; i >= 0; i--) {
     const f = fireflies[i];
     const isAlive = f.update();
@@ -310,8 +304,8 @@ window.addEventListener('touchend', () => {
 });
 
 window.addEventListener('click', (e) => {
-  // Crear destello de pequeñas luciérnagas donde haga clic
-  for (let i = 0; i < 6; i++) {
+  // Destello de luciérnagas
+  for (let i = 0; i < 5; i++) {
     const tempF = new Firefly(
       e.clientX + (Math.random() - 0.5) * 40,
       e.clientY + (Math.random() - 0.5) * 40,
@@ -364,8 +358,6 @@ btnFlowers.addEventListener('click', () => {
   for (let i = 0; i < 40; i++) {
     createPetal(true);
   }
-
-  // Pequeño efecto háptico o visual en el botón
   btnFlowers.style.transform = 'scale(0.95)';
   setTimeout(() => {
     btnFlowers.style.transform = '';
@@ -381,13 +373,10 @@ btnFireflies.addEventListener('click', () => {
       Math.random() * height,
       true
     );
-    f.life = 2.0; // Durar un poco más
+    f.life = 2.0;
     fireflies.push(f);
   }
-
-  // Disparar también una estrella fugaz
   shootingStars.push(new ShootingStar());
-
   btnFireflies.style.transform = 'scale(0.95)';
   setTimeout(() => {
     btnFireflies.style.transform = '';
@@ -398,7 +387,6 @@ btnFireflies.addEventListener('click', () => {
 // ==========================================
 // 🎵 SINTETIZADOR DE MÚSICA AMBIENTAL (Web Audio API)
 // ==========================================
-// Melodía etérea y pacífica generada en tiempo real
 let audioCtx = null;
 let isPlaying = false;
 let musicInterval = null;
@@ -406,7 +394,6 @@ let musicInterval = null;
 const musicBtn = document.getElementById('music-btn');
 const musicText = musicBtn.querySelector('.music-text');
 
-// Notas musicales (escala pentatónica mayor cálida y nostálgica: C, D, E, G, A)
 const notes = [
   261.63, // C4
   293.66, // D4
@@ -419,7 +406,6 @@ const notes = [
   783.99  // G5
 ];
 
-// Secuencia suave estilo caja de música
 const melodySequence = [
   0, 2, 4, 3, 2, 1, 4, 2,
   0, 3, 5, 4, 2, 1, 3, 0,
@@ -435,17 +421,14 @@ function playNote(freq, time, duration = 1.8) {
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
 
-  // Timbre cálido tipo caja de música / piano suave
   osc.type = 'sine';
   osc.frequency.setValueAtTime(freq, time);
 
-  // Armónico sutil
   const subOsc = audioCtx.createOscillator();
   const subGain = audioCtx.createGain();
   subOsc.type = 'triangle';
   subOsc.frequency.setValueAtTime(freq * 2, time);
 
-  // Envolvente de volumen (Attack suave, Decay prolongado)
   gain.gain.setValueAtTime(0, time);
   gain.gain.linearRampToValueAtTime(0.08, time + 0.05);
   gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
@@ -478,7 +461,6 @@ function startMelody() {
     const freq = notes[noteIdx];
     playNote(freq, audioCtx.currentTime);
 
-    // Ocasionalmente tocar una nota de armonía más baja
     if (noteIndex % 4 === 0) {
       const baseFreq = notes[0] / 2;
       playNote(baseFreq, audioCtx.currentTime, 2.8);
@@ -510,12 +492,51 @@ musicBtn.addEventListener('click', () => {
 });
 
 
+// ==========================================
+// 🚀 EVENTO DE INICIO: BOTÓN PARA ABRIR Y CASCADA
+// ==========================================
+const startBtn = document.getElementById('start-btn');
+const introScreen = document.getElementById('intro-screen');
+const mainWrapper = document.getElementById('main-wrapper');
+
+startBtn.addEventListener('click', () => {
+  // 1. Desvanecer pantalla inicial
+  introScreen.classList.add('fade-out');
+
+  // 2. Iniciar música ambiental automáticamente
+  if (!isPlaying) {
+    startMelody();
+    isPlaying = true;
+    musicBtn.classList.add('playing');
+    musicText.textContent = 'Pausar';
+  }
+
+  // 3. Activar contenido principal y desencadenar cascada de lluvia de texto
+  setTimeout(() => {
+    introScreen.style.display = 'none';
+    mainWrapper.classList.remove('hidden');
+    // Forzar reflow para que las animaciones de cascada arranquen limpiamente
+    void mainWrapper.offsetWidth;
+    mainWrapper.classList.add('visible');
+
+    // Cascada festiva de pétalos y luciérnagas de bienvenida
+    for (let i = 0; i < 35; i++) {
+      createPetal(true);
+    }
+    for (let i = 0; i < 15; i++) {
+      const f = new Firefly(Math.random() * width, Math.random() * height, true);
+      f.life = 2.5;
+      fireflies.push(f);
+    }
+  }, 500);
+});
+
+
 // Inicialización
 resizeCanvas();
 initFireflies();
 animateCanvas();
 
-// Primeros pétalos
 for (let i = 0; i < 8; i++) {
   createPetal();
 }
