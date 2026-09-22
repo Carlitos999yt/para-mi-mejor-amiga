@@ -9,15 +9,15 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Canvas de fondo para cielo nocturno, luna llena y luciérnagas continuas -->
+  <!-- Canvas de fondo para cielo estrellado, luna llena y luciérnagas continuas -->
   <canvas id="night-canvas"></canvas>
 
-  <!-- Lluvia automática y continua de pétalos amarillos -->
+  <!-- Contenedor de lluvia automática de pétalos de flores amarillas (nunca se detiene) -->
   <div id="petals-container"></div>
 
   <!-- Botón flotante de música ambiental -->
@@ -29,152 +29,180 @@
     </div>
   </button>
 
-  <!-- PANTALLA INICIAL: Solo el botón para hacer clic -->
-  <div id="intro-screen" class="intro-screen">
-    <button id="start-btn" class="start-btn">
-      <span class="btn-flower">🌻</span>
-      <span class="btn-text">Toca aquí para ver tu sorpresa</span>
-      <span class="btn-sparkle">✨</span>
-    </button>
+  <!-- PANTALLA INICIAL: Botón centrado para abrir -->
+  <div id="intro-screen" class="intro-overlay">
+    <div class="intro-content">
+      <div class="intro-flower">🌻</div>
+      <button id="start-btn" class="open-btn">
+        <span>Toca aquí para abrir ✨ 💛</span>
+      </button>
+    </div>
   </div>
 
-  <!-- CONTENIDO PRINCIPAL: ABIERTO, SIN CUADRO, CON TEXTO GRANDE Y FLOR ANIMADA -->
-  <div id="main-content" class="main-content hidden">
-    
-    <!-- Foto estática circular de la amiga -->
-    <div class="avatar-container">
-      <div class="avatar-lunar-glow"></div>
-      <div class="avatar-ring">
-        <img src="foto.jpg" alt="Mi Mejor Amiga" class="avatar-img" />
-      </div>
-      <div class="avatar-sparkles">
-        <span class="sparkle s1">✨</span>
-        <span class="sparkle s2">💛</span>
-        <span class="sparkle s3">✨</span>
-      </div>
-    </div>
-
-    <!-- FLOR AMARILLA ANIMADA PROTAGÓNICA (Movimiento en pétalos, tallo y resplandor) -->
-    <div class="flower-stage">
-      <svg class="sunflower-svg" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="sunPetalGrad" cx="50%" cy="100%" r="90%">
-            <stop offset="0%" stop-color="#ffb300" />
-            <stop offset="60%" stop-color="#ffea00" />
-            <stop offset="100%" stop-color="#fff9c4" />
-          </radialGradient>
-          <radialGradient id="sunCenterGrad" cx="45%" cy="45%" r="55%">
-            <stop offset="0%" stop-color="#5d2e05" />
-            <stop offset="70%" stop-color="#3d1d00" />
-            <stop offset="100%" stop-color="#1f0e00" />
-          </radialGradient>
-          <filter id="goldenGlow" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="5" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-        </defs>
-
-        <!-- Tallo con animación de balanceo -->
-        <g class="stem-group">
-          <path class="animated-stem" d="M 100 240 Q 95 170 100 110" stroke="#388e3c" stroke-width="6" stroke-linecap="round" fill="none" />
-          <!-- Hojas que se mecen -->
-          <path class="animated-leaf leaf-1" d="M 98 180 C 60 170 50 140 70 135 C 90 130 96 160 98 180 Z" fill="#2e7d32" />
-          <path class="animated-leaf leaf-2" d="M 100 160 C 140 150 150 120 130 115 C 110 110 102 140 100 160 Z" fill="#388e3c" />
-        </g>
-
-        <!-- Cabeza de la Flor Amarilla con pétalos animados -->
-        <g class="flower-head" transform="translate(100, 105)" filter="url(#goldenGlow)">
-          <!-- Halo de luz dorado de fondo -->
-          <circle cx="0" cy="0" r="55" fill="rgba(255, 215, 0, 0.25)" class="sun-aura" />
-          
-          <!-- Capa 1: Pétalos traseros -->
-          <g class="petals-layer layer-back">
-            <ellipse cx="0" cy="-42" rx="11" ry="26" fill="url(#sunPetalGrad)" class="svg-petal p-back" transform="rotate(15)" />
-            <ellipse cx="0" cy="-42" rx="11" ry="26" fill="url(#sunPetalGrad)" class="svg-petal p-back" transform="rotate(45)" />
-            <ellipse cx="0" cy="-42" rx="11" ry="26" fill="url(#sunPetalGrad)" class="svg-petal p-back" transform="rotate(75)" />
-            <ellipse cx="0" cy="-42" rx="11" ry="26" fill="url(#sunPetalGrad)" class="svg-petal p-back" transform="rotate(105)" />
-            <ellipse cx="0" cy="-42" rx="11" ry="26" fill="url(#sunPetalGrad)" class="svg-petal p-back" transform="rotate(135)" />
-            <ellipse cx="0" cy="-42" rx="11" ry="26" fill="url(#sunPetalGrad)" class="svg-petal p-back" transform="rotate(165)" />
-            <ellipse cx="0" cy="-42" rx="11" ry="26" fill="url(#sunPetalGrad)" class="svg-petal p-back" transform="rotate(195)" />
-            <ellipse cx="0" cy="-42" rx="11" ry="26" fill="url(#sunPetalGrad)" class="svg-petal p-back" transform="rotate(225)" />
-            <ellipse cx="0" cy="-42" rx="11" ry="26" fill="url(#sunPetalGrad)" class="svg-petal p-back" transform="rotate(255)" />
-            <ellipse cx="0" cy="-42" rx="11" ry="26" fill="url(#sunPetalGrad)" class="svg-petal p-back" transform="rotate(285)" />
-            <ellipse cx="0" cy="-42" rx="11" ry="26" fill="url(#sunPetalGrad)" class="svg-petal p-back" transform="rotate(315)" />
-            <ellipse cx="0" cy="-42" rx="11" ry="26" fill="url(#sunPetalGrad)" class="svg-petal p-back" transform="rotate(345)" />
-          </g>
-
-          <!-- Capa 2: Pétalos frontales -->
-          <g class="petals-layer layer-front">
-            <ellipse cx="0" cy="-40" rx="10" ry="24" fill="url(#sunPetalGrad)" class="svg-petal p-front" transform="rotate(0)" />
-            <ellipse cx="0" cy="-40" rx="10" ry="24" fill="url(#sunPetalGrad)" class="svg-petal p-front" transform="rotate(30)" />
-            <ellipse cx="0" cy="-40" rx="10" ry="24" fill="url(#sunPetalGrad)" class="svg-petal p-front" transform="rotate(60)" />
-            <ellipse cx="0" cy="-40" rx="10" ry="24" fill="url(#sunPetalGrad)" class="svg-petal p-front" transform="rotate(90)" />
-            <ellipse cx="0" cy="-40" rx="10" ry="24" fill="url(#sunPetalGrad)" class="svg-petal p-front" transform="rotate(120)" />
-            <ellipse cx="0" cy="-40" rx="10" ry="24" fill="url(#sunPetalGrad)" class="svg-petal p-front" transform="rotate(150)" />
-            <ellipse cx="0" cy="-40" rx="10" ry="24" fill="url(#sunPetalGrad)" class="svg-petal p-front" transform="rotate(180)" />
-            <ellipse cx="0" cy="-40" rx="10" ry="24" fill="url(#sunPetalGrad)" class="svg-petal p-front" transform="rotate(210)" />
-            <ellipse cx="0" cy="-40" rx="10" ry="24" fill="url(#sunPetalGrad)" class="svg-petal p-front" transform="rotate(240)" />
-            <ellipse cx="0" cy="-40" rx="10" ry="24" fill="url(#sunPetalGrad)" class="svg-petal p-front" transform="rotate(270)" />
-            <ellipse cx="0" cy="-40" rx="10" ry="24" fill="url(#sunPetalGrad)" class="svg-petal p-front" transform="rotate(300)" />
-            <ellipse cx="0" cy="-40" rx="10" ry="24" fill="url(#sunPetalGrad)" class="svg-petal p-front" transform="rotate(330)" />
-          </g>
-
-          <!-- Centro de la flor con semillas y textura -->
-          <circle cx="0" cy="0" r="22" fill="url(#sunCenterGrad)" class="flower-core" />
-          <circle cx="0" cy="0" r="16" fill="none" stroke="#cca000" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.6" />
-        </g>
-      </svg>
-    </div>
-
-    <!-- CONTENEDOR DE TEXTO ABIERTO, GRANDE Y CON LLUVIA EN CASCADA HORIZONTAL -->
-    <div id="rain-text-container" class="rain-text-container">
+  <!-- Contenido principal centrado -->
+  <main class="main-wrapper">
+    <div class="glass-card" id="card-box">
       
-      <!-- Título Grande -->
-      <h1 class="grand-title rain-sentence">
-        ¡Feliz 3 Años de Amistad!
-      </h1>
-
-      <!-- Subtítulo -->
-      <h2 class="grand-subtitle rain-sentence">
-        Para mi persona favorita y mejor amiga en todo el mundo
-      </h2>
-
-      <!-- Párrafo 1 -->
-      <p class="grand-paragraph rain-sentence">
-        Gracias por ser mi mejor amiga en todos estos años. También quería serte agradecido, 
-        aunque muchas veces no te lo diga directamente.
-      </p>
-
-      <!-- Banner Dorado de Flores -->
-      <div class="grand-banner rain-sentence">
-        <span class="banner-flower">🌻</span>
-        <span class="banner-text">
-          Quería regalarte estas flores amarillas que nunca se marchitan, para recordarte siempre lo especial e incondicional que eres para mí.
-        </span>
-        <span class="banner-flower">🌻</span>
+      <!-- Insignia superior -->
+      <div class="badge-container">
+        <span class="badge">✨ 3 Años de Amistad ✨</span>
       </div>
 
-      <!-- Párrafo 2 -->
-      <p class="grand-paragraph rain-sentence">
-        Gracias por entender cuando pasaba cualquier huevada conmigo, cuando yo te escribía en las mañanas 
-        y a veces me contestabas, a veces sí, a veces no... <i>(jajaja)</i>, pero al final del día 
-        siempre estuviste ahí para escucharme y acompañarme.
-      </p>
-
-      <!-- Párrafo de Cierre -->
-      <p class="grand-closing rain-sentence">
-        Muchas gracias en serio por tu tiempo, tus risas, tu paciencia y por ser esa amiga única. 
-        Que la vida nos siga regalando muchísimos años más de amistad y anécdotas. 💛
-      </p>
-
-      <!-- Footer elegante -->
-      <div class="grand-footer rain-sentence">
-        <span>3 Años Inolvidables • 2023 - 2026 y por siempre ∞</span>
+      <!-- Foto estática de la amiga en marco circular -->
+      <div class="avatar-section">
+        <div class="avatar-halo"></div>
+        <div class="avatar-ring">
+          <img src="foto.jpg" alt="Mi Mejor Amiga" class="avatar-img" id="avatar-img" />
+        </div>
+        <div class="avatar-sparkles">
+          <span class="sparkle s1">✨</span>
+          <span class="sparkle s2">💛</span>
+          <span class="sparkle s3">✨</span>
+        </div>
       </div>
+
+      <!-- FLOR AMARILLA ANIMADA DEBAJO DE LA FOTO -->
+      <div class="flower-under-photo">
+        <svg class="single-sunflower" viewBox="0 0 100 100">
+          <defs>
+            <radialGradient id="sunPetals" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff9c4" />
+              <stop offset="50%" stop-color="#ffd700" />
+              <stop offset="100%" stop-color="#ff9800" />
+            </radialGradient>
+            <radialGradient id="sunCore" cx="40%" cy="40%" r="50%">
+              <stop offset="0%" stop-color="#663300" />
+              <stop offset="100%" stop-color="#2d1300" />
+            </radialGradient>
+          </defs>
+          <g class="rotating-petals">
+            <!-- 12 pétalos que ondean -->
+            <ellipse cx="50" cy="20" rx="6" ry="16" fill="url(#sunPetals)" />
+            <ellipse cx="50" cy="20" rx="6" ry="16" fill="url(#sunPetals)" transform="rotate(30 50 50)" />
+            <ellipse cx="50" cy="20" rx="6" ry="16" fill="url(#sunPetals)" transform="rotate(60 50 50)" />
+            <ellipse cx="50" cy="20" rx="6" ry="16" fill="url(#sunPetals)" transform="rotate(90 50 50)" />
+            <ellipse cx="50" cy="20" rx="6" ry="16" fill="url(#sunPetals)" transform="rotate(120 50 50)" />
+            <ellipse cx="50" cy="20" rx="6" ry="16" fill="url(#sunPetals)" transform="rotate(150 50 50)" />
+            <ellipse cx="50" cy="20" rx="6" ry="16" fill="url(#sunPetals)" transform="rotate(180 50 50)" />
+            <ellipse cx="50" cy="20" rx="6" ry="16" fill="url(#sunPetals)" transform="rotate(210 50 50)" />
+            <ellipse cx="50" cy="20" rx="6" ry="16" fill="url(#sunPetals)" transform="rotate(240 50 50)" />
+            <ellipse cx="50" cy="20" rx="6" ry="16" fill="url(#sunPetals)" transform="rotate(270 50 50)" />
+            <ellipse cx="50" cy="20" rx="6" ry="16" fill="url(#sunPetals)" transform="rotate(300 50 50)" />
+            <ellipse cx="50" cy="20" rx="6" ry="16" fill="url(#sunPetals)" transform="rotate(330 50 50)" />
+          </g>
+          <circle cx="50" cy="50" r="14" fill="url(#sunCore)" />
+        </svg>
+      </div>
+
+      <!-- Título principal con efecto de caída en cascada -->
+      <header class="card-header cascade-text" style="--delay: 0.1s;">
+        <h1 class="title">¡Feliz 3 Años de Amistad!</h1>
+        <p class="subtitle">Para mi persona favorita y mejor amiga en todo el mundo</p>
+      </header>
+
+      <!-- Mensajes en cascada que caen y se acomodan horizontalmente -->
+      <section class="letter-content">
+        <p class="paragraph highlight-first cascade-text" style="--delay: 0.4s;">
+          Gracias por ser mi mejor amiga en todos estos años. También quería serte agradecido, 
+          aunque muchas veces no te lo diga directamente.
+        </p>
+
+        <!-- Banner de flores amarillas -->
+        <div class="flower-banner cascade-text" style="--delay: 0.7s;">
+          <div class="flower-icon-left">🌻</div>
+          <p class="flower-text">
+            Quería regalarte estas flores amarillas que nunca se marchitan, para recordarte siempre 
+            lo especial e incondicional que eres para mí.
+          </p>
+          <div class="flower-icon-right">🌻</div>
+        </div>
+
+        <p class="paragraph cascade-text" style="--delay: 1.0s;">
+          Gracias por entender cuando pasaba cualquier huevada conmigo, cuando yo te escribía en las mañanas 
+          y a veces me contestabas, a veces sí, a veces no... <i>(jajaja)</i>, pero al final del día 
+          siempre estuviste ahí para escucharme y acompañarme.
+        </p>
+
+        <p class="paragraph highlight-closing cascade-text" style="--delay: 1.3s;">
+          Muchas gracias en serio por tu tiempo, tus risas, tu paciencia y por ser esa amiga única. 
+          Que la vida nos siga regalando muchísimos años más de amistad y anécdotas. 💛
+        </p>
+      </section>
+
+      <!-- Decoración inferior de flores y pasto nocturno -->
+      <div class="flowers-garden cascade-text" style="--delay: 1.6s;">
+        <svg class="garden-svg" viewBox="0 0 500 120" preserveAspectRatio="none">
+          <defs>
+            <radialGradient id="flowerGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fffb99" />
+              <stop offset="70%" stop-color="#ffd700" />
+              <stop offset="100%" stop-color="#e69500" />
+            </radialGradient>
+            <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#7a460b" />
+              <stop offset="100%" stop-color="#3d1d00" />
+            </radialGradient>
+          </defs>
+
+          <!-- Tallo y hojas izquierda -->
+          <path d="M 60 120 Q 65 70 80 40" stroke="#3e6b36" stroke-width="4" fill="none" />
+          <path d="M 72 80 Q 95 70 85 90" stroke="#3e6b36" stroke-width="3" fill="#2d5227" opacity="0.8" />
+          <g transform="translate(80, 40) scale(0.75)">
+            <circle cx="0" cy="0" r="28" fill="url(#flowerGlow)" opacity="0.4" />
+            <ellipse cx="0" cy="-22" rx="7" ry="16" fill="url(#flowerGlow)" />
+            <ellipse cx="15" cy="-15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(45)" />
+            <ellipse cx="22" cy="0" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(90)" />
+            <ellipse cx="15" cy="15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(135)" />
+            <ellipse cx="0" cy="22" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(180)" />
+            <ellipse cx="-15" cy="15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(225)" />
+            <ellipse cx="-22" cy="0" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(270)" />
+            <ellipse cx="-15" cy="-15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(315)" />
+            <circle cx="0" cy="0" r="10" fill="url(#centerGlow)" />
+          </g>
+
+          <!-- Flor central grande -->
+          <path d="M 250 120 Q 245 60 250 25" stroke="#487e3f" stroke-width="4.5" fill="none" />
+          <path d="M 248 70 Q 220 60 235 85" stroke="#487e3f" stroke-width="3" fill="#2f5728" opacity="0.85" />
+          <path d="M 252 50 Q 280 40 265 65" stroke="#487e3f" stroke-width="3" fill="#2f5728" opacity="0.85" />
+          <g transform="translate(250, 25) scale(0.95)">
+            <circle cx="0" cy="0" r="34" fill="url(#flowerGlow)" opacity="0.5" />
+            <ellipse cx="0" cy="-26" rx="8" ry="19" fill="url(#flowerGlow)" />
+            <ellipse cx="18" cy="-18" rx="8" ry="19" fill="url(#flowerGlow)" transform="rotate(45)" />
+            <ellipse cx="26" cy="0" rx="8" ry="19" fill="url(#flowerGlow)" transform="rotate(90)" />
+            <ellipse cx="18" cy="18" rx="8" ry="19" fill="url(#flowerGlow)" transform="rotate(135)" />
+            <ellipse cx="0" cy="26" rx="8" ry="19" fill="url(#flowerGlow)" transform="rotate(180)" />
+            <ellipse cx="-18" cy="18" rx="8" ry="19" fill="url(#flowerGlow)" transform="rotate(225)" />
+            <ellipse cx="-26" cy="0" rx="8" ry="19" fill="url(#flowerGlow)" transform="rotate(270)" />
+            <ellipse cx="-18" cy="-18" rx="8" ry="19" fill="url(#flowerGlow)" transform="rotate(315)" />
+            <circle cx="0" cy="0" r="13" fill="url(#centerGlow)" />
+          </g>
+
+          <!-- Flor derecha -->
+          <path d="M 430 120 Q 425 75 410 45" stroke="#3e6b36" stroke-width="4" fill="none" />
+          <path d="M 418 85 Q 395 75 408 95" stroke="#3e6b36" stroke-width="3" fill="#2d5227" opacity="0.8" />
+          <g transform="translate(410, 45) scale(0.7)">
+            <circle cx="0" cy="0" r="28" fill="url(#flowerGlow)" opacity="0.4" />
+            <ellipse cx="0" cy="-22" rx="7" ry="16" fill="url(#flowerGlow)" />
+            <ellipse cx="15" cy="-15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(45)" />
+            <ellipse cx="22" cy="0" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(90)" />
+            <ellipse cx="15" cy="15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(135)" />
+            <ellipse cx="0" cy="22" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(180)" />
+            <ellipse cx="-15" cy="15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(225)" />
+            <ellipse cx="-22" cy="0" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(270)" />
+            <ellipse cx="-15" cy="-15" rx="7" ry="16" fill="url(#flowerGlow)" transform="rotate(315)" />
+            <circle cx="0" cy="0" r="10" fill="url(#centerGlow)" />
+          </g>
+        </svg>
+      </div>
+
+      <!-- Pie de página -->
+      <footer class="card-footer cascade-text" style="--delay: 1.8s;">
+        <p>Siempre serás una persona sumamente especial. 💛</p>
+        <span class="counter-text">3 Años Inolvidables • 2023 - 2026 y por siempre ∞</span>
+      </footer>
 
     </div>
-
-  </div>
+  </main>
 
   <script src="script.js"></script>
 </body>

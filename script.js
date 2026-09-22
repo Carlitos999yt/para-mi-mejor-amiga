@@ -1,5 +1,5 @@
 // ==========================================
-// 🌌 CIELO NOCTURNO, LUNA LLENA Y LUCIÉRNAGAS CONTINUAS
+// 🌌 CIELO NOCTURNO, LUNA LLENA Y LUCIÉRNAGAS
 // ==========================================
 const canvas = document.getElementById('night-canvas');
 const ctx = canvas.getContext('2d');
@@ -21,33 +21,33 @@ window.addEventListener('resize', resizeCanvas);
 // Estrellas
 function initStars() {
   stars = [];
-  const numStars = Math.floor((width * height) / 4000);
+  const numStars = Math.floor((width * height) / 4500);
   for (let i = 0; i < numStars; i++) {
     stars.push({
       x: Math.random() * width,
       y: Math.random() * height,
-      radius: Math.random() * 1.5 + 0.4,
+      radius: Math.random() * 1.4 + 0.3,
       alpha: Math.random(),
-      twinkleSpeed: Math.random() * 0.02 + 0.006,
+      twinkleSpeed: Math.random() * 0.02 + 0.005,
       direction: Math.random() > 0.5 ? 1 : -1
     });
   }
 }
 
-// Luciérnagas continuas (nunca se detienen)
+// Luciérnagas continuas
 class Firefly {
   constructor(x, y, isTemporary = false) {
     this.x = x ?? Math.random() * width;
     this.y = y ?? Math.random() * height;
-    this.radius = Math.random() * 2.4 + 1.4;
+    this.radius = Math.random() * 2.2 + 1.2;
     this.baseAlpha = Math.random() * 0.5 + 0.5;
     this.alpha = this.baseAlpha;
     this.pulseSpeed = Math.random() * 0.03 + 0.015;
     this.pulseDir = Math.random() > 0.5 ? 1 : -1;
-    this.vx = (Math.random() - 0.5) * 0.9;
-    this.vy = (Math.random() - 0.5) * 0.9;
-    this.color = Math.random() > 0.25 ? '#ffe853' : '#b8ff66';
-    this.glowSize = Math.random() * 16 + 12;
+    this.vx = (Math.random() - 0.5) * 0.8;
+    this.vy = (Math.random() - 0.5) * 0.8;
+    this.color = Math.random() > 0.3 ? '#ffe853' : '#b8ff66';
+    this.glowSize = Math.random() * 14 + 10;
     this.isTemporary = isTemporary;
     this.life = isTemporary ? 1 : null;
   }
@@ -56,25 +56,22 @@ class Firefly {
     this.x += this.vx;
     this.y += this.vy;
 
-    // Movimiento orgánico
-    this.vx += (Math.random() - 0.5) * 0.12;
-    this.vy += (Math.random() - 0.5) * 0.12;
-    this.vx = Math.max(-1.4, Math.min(1.4, this.vx));
-    this.vy = Math.max(-1.4, Math.min(1.4, this.vy));
+    this.vx += (Math.random() - 0.5) * 0.1;
+    this.vy += (Math.random() - 0.5) * 0.1;
+    this.vx = Math.max(-1.2, Math.min(1.2, this.vx));
+    this.vy = Math.max(-1.2, Math.min(1.2, this.vy));
 
-    // Reacción suave al tacto/mouse
     if (mouse.x !== null && mouse.y !== null) {
       const dx = this.x - mouse.x;
       const dy = this.y - mouse.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 130) {
-        const force = (130 - dist) / 130;
-        this.vx += (dx / dist) * force * 0.6;
-        this.vy += (dy / dist) * force * 0.6;
+      if (dist < 120) {
+        const force = (120 - dist) / 120;
+        this.vx += (dx / dist) * force * 0.5;
+        this.vy += (dy / dist) * force * 0.5;
       }
     }
 
-    // Parpadeo suave
     this.alpha += this.pulseSpeed * this.pulseDir;
     if (this.alpha > 0.95) {
       this.alpha = 0.95;
@@ -104,8 +101,8 @@ class Firefly {
       this.x, this.y, 0,
       this.x, this.y, this.glowSize
     );
-    gradient.addColorStop(0, this.color === '#ffe853' ? `rgba(255, 235, 90, ${curAlpha * 0.95})` : `rgba(184, 255, 102, ${curAlpha * 0.95})`);
-    gradient.addColorStop(0.35, this.color === '#ffe853' ? `rgba(255, 215, 0, ${curAlpha * 0.45})` : `rgba(140, 240, 80, ${curAlpha * 0.45})`);
+    gradient.addColorStop(0, this.color === '#ffe853' ? `rgba(255, 235, 90, ${curAlpha * 0.9})` : `rgba(184, 255, 102, ${curAlpha * 0.9})`);
+    gradient.addColorStop(0.35, this.color === '#ffe853' ? `rgba(255, 215, 0, ${curAlpha * 0.4})` : `rgba(140, 240, 80, ${curAlpha * 0.4})`);
     gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
     ctx.fillStyle = gradient;
@@ -113,7 +110,6 @@ class Firefly {
     ctx.arc(this.x, this.y, this.glowSize, 0, Math.PI * 2);
     ctx.fill();
 
-    // Núcleo brillante
     ctx.fillStyle = `rgba(255, 255, 255, ${curAlpha})`;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius * 0.7, 0, Math.PI * 2);
@@ -123,13 +119,13 @@ class Firefly {
 
 function initFireflies() {
   fireflies = [];
-  const count = Math.min(65, Math.floor(width / 20));
+  const count = Math.min(50, Math.floor(width / 25));
   for (let i = 0; i < count; i++) {
     fireflies.push(new Firefly());
   }
 }
 
-// Estrellas Fugaces
+// Estrella Fugaz
 class ShootingStar {
   constructor() {
     this.reset();
@@ -138,8 +134,8 @@ class ShootingStar {
   reset() {
     this.x = Math.random() * width * 0.8;
     this.y = Math.random() * (height * 0.35);
-    this.length = Math.random() * 90 + 60;
-    this.speed = Math.random() * 8 + 10;
+    this.length = Math.random() * 80 + 50;
+    this.speed = Math.random() * 7 + 9;
     this.angle = Math.PI / 4 + (Math.random() - 0.5) * 0.2;
     this.opacity = 1;
     this.active = true;
@@ -149,7 +145,7 @@ class ShootingStar {
     if (!this.active) return;
     this.x += Math.cos(this.angle) * this.speed;
     this.y += Math.sin(this.angle) * this.speed;
-    this.opacity -= 0.016;
+    this.opacity -= 0.015;
     if (this.opacity <= 0) {
       this.active = false;
     }
@@ -166,7 +162,7 @@ class ShootingStar {
     grad.addColorStop(1, `rgba(255, 215, 0, 0)`);
 
     ctx.strokeStyle = grad;
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(this.x, this.y);
     ctx.lineTo(tailX, tailY);
@@ -176,31 +172,28 @@ class ShootingStar {
 
 // Dibujar Luna Llena
 function drawMoon() {
-  const moonX = width > 768 ? width * 0.84 : width * 0.5;
-  const moonY = width > 768 ? 120 : 75;
-  const moonRadius = width > 768 ? 58 : 44;
+  const moonX = width > 700 ? width * 0.82 : width * 0.5;
+  const moonY = width > 700 ? 110 : 70;
+  const moonRadius = width > 700 ? 55 : 42;
 
-  // Gran halo exterior
-  const outerHalo = ctx.createRadialGradient(moonX, moonY, moonRadius * 0.8, moonX, moonY, moonRadius * 4.8);
-  outerHalo.addColorStop(0, 'rgba(230, 242, 255, 0.24)');
-  outerHalo.addColorStop(0.4, 'rgba(195, 225, 255, 0.09)');
+  const outerHalo = ctx.createRadialGradient(moonX, moonY, moonRadius * 0.8, moonX, moonY, moonRadius * 4.5);
+  outerHalo.addColorStop(0, 'rgba(230, 242, 255, 0.22)');
+  outerHalo.addColorStop(0.4, 'rgba(195, 225, 255, 0.08)');
   outerHalo.addColorStop(1, 'rgba(15, 25, 50, 0)');
   ctx.fillStyle = outerHalo;
   ctx.beginPath();
-  ctx.arc(moonX, moonY, moonRadius * 4.8, 0, Math.PI * 2);
+  ctx.arc(moonX, moonY, moonRadius * 4.5, 0, Math.PI * 2);
   ctx.fill();
 
-  // Halo cercano
-  const innerHalo = ctx.createRadialGradient(moonX, moonY, moonRadius * 0.8, moonX, moonY, moonRadius * 1.6);
-  innerHalo.addColorStop(0, 'rgba(255, 255, 255, 0.75)');
-  innerHalo.addColorStop(0.5, 'rgba(235, 245, 255, 0.35)');
+  const innerHalo = ctx.createRadialGradient(moonX, moonY, moonRadius * 0.8, moonX, moonY, moonRadius * 1.5);
+  innerHalo.addColorStop(0, 'rgba(255, 255, 255, 0.7)');
+  innerHalo.addColorStop(0.5, 'rgba(235, 245, 255, 0.3)');
   innerHalo.addColorStop(1, 'rgba(200, 225, 255, 0)');
   ctx.fillStyle = innerHalo;
   ctx.beginPath();
-  ctx.arc(moonX, moonY, moonRadius * 1.6, 0, Math.PI * 2);
+  ctx.arc(moonX, moonY, moonRadius * 1.5, 0, Math.PI * 2);
   ctx.fill();
 
-  // Disco lunar
   const moonGrad = ctx.createRadialGradient(moonX - moonRadius * 0.25, moonY - moonRadius * 0.25, 0, moonX, moonY, moonRadius);
   moonGrad.addColorStop(0, '#ffffff');
   moonGrad.addColorStop(0.65, '#f5f7fa');
@@ -212,7 +205,6 @@ function drawMoon() {
   ctx.arc(moonX, moonY, moonRadius, 0, Math.PI * 2);
   ctx.fill();
 
-  // Cráteres suaves
   ctx.save();
   ctx.beginPath();
   ctx.arc(moonX, moonY, moonRadius, 0, Math.PI * 2);
@@ -232,13 +224,11 @@ function drawMoon() {
   ctx.restore();
 }
 
-// Bucle de animación continuo
 function animateCanvas() {
   ctx.clearRect(0, 0, width, height);
 
   drawMoon();
 
-  // Estrellas
   for (let s of stars) {
     s.alpha += s.twinkleSpeed * s.direction;
     if (s.alpha > 0.95) {
@@ -255,8 +245,7 @@ function animateCanvas() {
     ctx.fill();
   }
 
-  // Estrellas fugaces
-  if (Math.random() < 0.009 && shootingStars.length < 2) {
+  if (Math.random() < 0.008 && shootingStars.length < 2) {
     shootingStars.push(new ShootingStar());
   }
 
@@ -269,7 +258,6 @@ function animateCanvas() {
     }
   }
 
-  // Luciérnagas continuas
   for (let i = fireflies.length - 1; i >= 0; i--) {
     const f = fireflies[i];
     const isAlive = f.update();
@@ -283,7 +271,6 @@ function animateCanvas() {
   requestAnimationFrame(animateCanvas);
 }
 
-// Interacción táctil / cursor
 window.addEventListener('mousemove', (e) => {
   mouse.x = e.clientX;
   mouse.y = e.clientY;
@@ -316,20 +303,20 @@ window.addEventListener('click', (e) => {
 
 
 // ==========================================
-// 🌼 LLUVIA AUTOMÁTICA Y CONTINUA DE PÉTALOS AMARILLOS (NUNCA SE DETIENE)
+// 🌼 LLUVIA AUTOMÁTICA Y CONTINUA DE PÉTALOS AMARILLOS
 // ==========================================
 const petalsContainer = document.getElementById('petals-container');
 
-function spawnPetal() {
+function createPetal() {
   const petal = document.createElement('div');
   petal.classList.add('petal');
 
-  const size = Math.random() * 18 + 14;
+  const size = Math.random() * 16 + 12;
   const startX = Math.random() * width;
-  const duration = Math.random() * 5 + 6; // 6s - 11s
+  const duration = Math.random() * 5 + 6;
 
   petal.style.width = `${size}px`;
-  petal.style.height = `${size * 1.5}px`;
+  petal.style.height = `${size * 1.4}px`;
   petal.style.left = `${startX}px`;
   petal.style.animationDuration = `${duration}s`;
 
@@ -340,12 +327,12 @@ function spawnPetal() {
   }, duration * 1000);
 }
 
-// Generación continua e ininterrumpida de pétalos (cada 380ms)
+// Lluvia automática constante (cada 400ms)
 setInterval(() => {
   if (document.visibilityState === 'visible') {
-    spawnPetal();
+    createPetal();
   }
-}, 380);
+}, 400);
 
 
 // ==========================================
@@ -449,17 +436,20 @@ musicBtn.addEventListener('click', () => {
 
 
 // ==========================================
-// 🚀 EVENTO DE INICIO: BOTÓN PARA ABRIR Y CASCADA DE LLUVIA
+// 🚀 EVENTO DE INICIO: BOTÓN PARA ABRIR
 // ==========================================
 const startBtn = document.getElementById('start-btn');
 const introScreen = document.getElementById('intro-screen');
-const mainContent = document.getElementById('main-content');
+const cardBox = document.getElementById('card-box');
 
 startBtn.addEventListener('click', () => {
-  // 1. Ocultar pantalla inicial
+  // 1. Desvanecer overlay inicial
   introScreen.classList.add('fade-out');
+  setTimeout(() => {
+    introScreen.style.display = 'none';
+  }, 700);
 
-  // 2. Iniciar música automáticamente
+  // 2. Iniciar música ambiental
   if (!isPlaying) {
     startMelody();
     isPlaying = true;
@@ -467,18 +457,15 @@ startBtn.addEventListener('click', () => {
     musicText.textContent = 'Pausar';
   }
 
-  // 3. Revelar contenido principal abierto
-  setTimeout(() => {
-    introScreen.style.display = 'none';
-    mainContent.classList.remove('hidden');
-    void mainContent.offsetWidth; // Forzar reflow
-    mainContent.classList.add('visible');
+  // 3. Reiniciar animación de la tarjeta y cascada de texto
+  cardBox.style.animation = 'none';
+  void cardBox.offsetWidth;
+  cardBox.style.animation = 'cardFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards';
 
-    // Cascada inicial de pétalos
-    for (let i = 0; i < 25; i++) {
-      spawnPetal();
-    }
-  }, 400);
+  // Disparar ráfaga inicial de pétalos
+  for (let i = 0; i < 20; i++) {
+    createPetal();
+  }
 });
 
 
@@ -487,7 +474,6 @@ resizeCanvas();
 initFireflies();
 animateCanvas();
 
-// Primeros pétalos
-for (let i = 0; i < 10; i++) {
-  spawnPetal();
+for (let i = 0; i < 8; i++) {
+  createPetal();
 }
