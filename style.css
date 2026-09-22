@@ -1,0 +1,503 @@
+/* Reset y Estilos Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-dark: #060913;
+  --bg-gradient: radial-gradient(circle at 50% 15%, #151e3f 0%, #080c1b 50%, #03050c 100%);
+  --gold-glow: #ffd700;
+  --gold-light: #fff280;
+  --gold-dark: #cca000;
+  --text-main: #f0f4f8;
+  --text-muted: #b8c5d6;
+  --glass-bg: rgba(13, 20, 38, 0.65);
+  --glass-border: rgba(255, 215, 0, 0.25);
+  --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.12);
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  background: var(--bg-dark);
+  background-image: var(--bg-gradient);
+  color: var(--text-main);
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Canvas de Fondo (Cielo, Luna y Luciérnagas) */
+#night-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+/* Contenedor de Pétalos */
+#petals-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* Pétalo animado */
+.petal {
+  position: absolute;
+  background: linear-gradient(135deg, #fff7ad 0%, #ffd700 60%, #e6a100 100%);
+  border-radius: 60% 0 60% 0;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.5));
+  animation: fallDown linear forwards;
+}
+
+@keyframes fallDown {
+  0% {
+    transform: translateY(-50px) rotate(0deg) rotateY(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  90% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(105vh) rotate(540deg) rotateY(360deg);
+    opacity: 0;
+  }
+}
+
+/* Botón de Música Flotante */
+.music-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  border-radius: 30px;
+  color: var(--gold-light);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 215, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.music-btn:hover {
+  transform: scale(1.05);
+  background: rgba(26, 38, 70, 0.9);
+  border-color: var(--gold-glow);
+  box-shadow: 0 6px 25px rgba(255, 215, 0, 0.35);
+}
+
+.music-btn.playing {
+  border-color: var(--gold-glow);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.sound-wave {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 14px;
+}
+
+.sound-wave span {
+  display: block;
+  width: 3px;
+  height: 4px;
+  background-color: var(--gold-light);
+  border-radius: 2px;
+  transition: height 0.2s ease;
+}
+
+.music-btn.playing .sound-wave span:nth-child(1) { animation: wave 0.8s ease-in-out infinite; }
+.music-btn.playing .sound-wave span:nth-child(2) { animation: wave 0.8s ease-in-out 0.2s infinite; }
+.music-btn.playing .sound-wave span:nth-child(3) { animation: wave 0.8s ease-in-out 0.4s infinite; }
+.music-btn.playing .sound-wave span:nth-child(4) { animation: wave 0.8s ease-in-out 0.6s infinite; }
+
+@keyframes wave {
+  0%, 100% { height: 4px; }
+  50% { height: 14px; }
+}
+
+/* Contenedor Principal */
+.main-wrapper {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 70px 18px 40px;
+}
+
+/* Tarjeta Glassmorphism */
+.glass-card {
+  position: relative;
+  width: 100%;
+  max-width: 580px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  padding: 40px 30px 25px;
+  box-shadow: var(--glass-shadow);
+  text-align: center;
+  overflow: hidden;
+  animation: cardFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cardFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Insignia */
+.badge-container {
+  margin-bottom: 24px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 18px;
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  border-radius: 20px;
+  color: var(--gold-light);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+/* Sección de Avatar con Halos */
+.avatar-section {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar-halo {
+  position: absolute;
+  width: 175px;
+  height: 175px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.35) 0%, rgba(255, 215, 0, 0) 70%);
+  animation: haloPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes haloPulse {
+  0% { transform: scale(0.95); opacity: 0.5; }
+  100% { transform: scale(1.15); opacity: 0.9; }
+}
+
+.avatar-ring {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, #fff280, #ffd700, #ff9900, #fff280);
+  background-size: 300% 300%;
+  animation: ringRotate 6s ease infinite, ringGlow 3s ease-in-out infinite alternate;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes ringRotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes ringGlow {
+  0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
+  100% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.75); }
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  border: 3px solid rgba(13, 20, 38, 0.9);
+  display: block;
+}
+
+.avatar-sparkles .sparkle {
+  position: absolute;
+  font-size: 1.1rem;
+  animation: sparkleFloat 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.s1 { top: -4px; right: 8px; animation-delay: 0.2s; }
+.s2 { bottom: 10px; left: -2px; animation-delay: 1.1s; }
+.s3 { bottom: -6px; right: 14px; animation-delay: 1.9s; }
+
+@keyframes sparkleFloat {
+  0%, 100% { transform: translateY(0) scale(0.9); opacity: 0.6; }
+  50% { transform: translateY(-8px) scale(1.2); opacity: 1; filter: drop-shadow(0 0 8px #ffd700); }
+}
+
+/* Encabezado */
+.card-header {
+  margin-bottom: 24px;
+}
+
+.title {
+  font-family: 'Cinzel', serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffffff 0%, #fff280 40%, #ffd700 80%, #ffbb00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.35);
+  letter-spacing: 0.5px;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+/* Contenido de la Carta */
+.letter-content {
+  text-align: left;
+  line-height: 1.75;
+  font-size: 0.96rem;
+  color: #dce5f0;
+  margin-bottom: 28px;
+}
+
+.paragraph {
+  margin-bottom: 16px;
+}
+
+.highlight-first {
+  font-size: 1.05rem;
+  color: #ffffff;
+  font-weight: 400;
+}
+
+/* Banner de Flores Amarillas */
+.flower-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(90deg, rgba(255, 215, 0, 0.08) 0%, rgba(255, 215, 0, 0.16) 50%, rgba(255, 215, 0, 0.08) 100%);
+  border-top: 1px solid rgba(255, 215, 0, 0.3);
+  border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+  padding: 14px 16px;
+  border-radius: 14px;
+  margin: 20px 0;
+  box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.08);
+}
+
+.flower-icon-left, .flower-icon-right {
+  font-size: 1.7rem;
+  animation: swayFlower 3s ease-in-out infinite alternate;
+}
+
+.flower-icon-right {
+  animation-delay: 1.5s;
+}
+
+@keyframes swayFlower {
+  0% { transform: rotate(-10deg) scale(0.95); }
+  100% { transform: rotate(10deg) scale(1.05); }
+}
+
+.flower-text {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.25rem;
+  color: var(--gold-light);
+  line-height: 1.35;
+  text-align: center;
+  flex: 1;
+}
+
+.highlight-closing {
+  font-weight: 400;
+  color: #fff9d6;
+  border-left: 3px solid var(--gold-glow);
+  padding-left: 14px;
+  margin-top: 18px;
+  font-style: italic;
+}
+
+/* Botones de Acción */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 30px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  outline: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ffd700 0%, #f59e0b 100%);
+  color: #1a1003;
+  border: none;
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4), 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(245, 158, 11, 0.6), 0 0 25px rgba(255, 215, 0, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--gold-light);
+  border: 1px solid rgba(255, 215, 0, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 215, 0, 0.12);
+  border-color: var(--gold-glow);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.25);
+  transform: translateY(-2px);
+}
+
+/* Jardín de Flores en SVG */
+.flowers-garden {
+  width: 100%;
+  height: 90px;
+  margin: 10px 0 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+.garden-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.4));
+  animation: subtleBreeze 4s ease-in-out infinite alternate;
+}
+
+@keyframes subtleBreeze {
+  0% { transform: skewX(-1.5deg); }
+  100% { transform: skewX(1.5deg); }
+}
+
+/* Pie de Página */
+.card-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 18px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.counter-text {
+  display: block;
+  font-size: 0.76rem;
+  color: rgba(255, 215, 0, 0.65);
+  margin-top: 6px;
+  letter-spacing: 1px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .glass-card {
+    padding: 32px 20px 20px;
+    border-radius: 22px;
+  }
+
+  .avatar-section {
+    width: 135px;
+    height: 135px;
+  }
+
+  .avatar-halo {
+    width: 145px;
+    height: 145px;
+  }
+
+  .avatar-ring {
+    width: 125px;
+    height: 125px;
+  }
+
+  .title {
+    font-size: 1.65rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+  }
+
+  .letter-content {
+    font-size: 0.9rem;
+  }
+
+  .flower-text {
+    font-size: 1.1rem;
+  }
+
+  .btn {
+    padding: 12px 16px;
+    font-size: 0.88rem;
+  }
+}
